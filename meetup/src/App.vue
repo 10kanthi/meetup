@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="sideNav"  
+    <v-navigation-drawer v-model="sideNav"
       temporary
       clipped
       fixed
@@ -9,9 +9,8 @@
       class="secondaryOrange"
       >
       <v-list dense>
-        <v-list-tile v-for="item in menuItems" 
-        :key="item.title" 
-        router
+        <v-list-tile v-for="item in menuItems"
+        :key="item.title"
         :to="item.link">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -23,9 +22,9 @@
        </v-list>
 
     </v-navigation-drawer>
-    
+
     <v-toolbar app fixed clipped-left dark class="primary" >
-      <v-toolbar-side-icon @click.native.stop="sideNav = !sideNav" dark color="secondaryOrange" class="hidden-sm-and-up"> 
+      <v-toolbar-side-icon @click.native.stop="sideNav = !sideNav" dark color="secondaryOrange" class="hidden-sm-and-up">
         <v-icon dark>list</v-icon>
       </v-toolbar-side-icon>
       <v-toolbar-title>
@@ -33,11 +32,10 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-xs-only"> 
+      <v-toolbar-items class="hidden-xs-only">
         <v-btn flat
-        v-for="item in menuItems" 
+        v-for="item in menuItems"
         :key="item.title"
-        router
         :to="item.link"
         >{{ item.title }}</v-btn>
       </v-toolbar-items>
@@ -51,15 +49,15 @@
 <script>
 export default {
   data: () => ({
-    sideNav : false,
+    sideNav: false,
     menuItems: [
-      { icon: 'add_circle', title: 'Create a meetup',link: '/meetup/new'},
-      { icon: 'supervised_user_circle', title: 'View Meetups', link: '/meetups'},
-      { icon: 'person', title: 'profile', link: '/profile'},
-      { icon: 'face', title: 'Sign up', link: '/signin'},
-      { icon: 'lock_open', title: 'Sign in', link: '/signup'},    
+      { icon: 'add_circle', title: 'Create a meetup', link: '/meetup/new' },
+      { icon: 'supervised_user_circle', title: 'View Meetups', link: '/meetups' },
+      { icon: 'person', title: 'profile', link: '/profile' },
+      { icon: 'face', title: 'Sign up', link: '/signin' },
+      { icon: 'lock_open', title: 'Sign in', link: '/signup' }
     ]
-  }),
+  })
 }
 
 </script>
