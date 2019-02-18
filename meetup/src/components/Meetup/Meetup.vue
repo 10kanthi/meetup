@@ -28,11 +28,9 @@
         </v-card-actions>
         <v-card-text>
             <div>
-                <h3 class="secondary--text">17th of July 2019 - Where it takes place</h3>
+                <h3 class="secondary--text">{{ meetup.date | date }} - {{ meetup.location }} </h3>
             </div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae ratione enim odio quia inventore qui, exercitationem id doloremque illo expedita harum repudiandae voluptatibus quae itaque dolorem ab illum mollitia
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae id, ex eius nisi dolore vitae! Ab delectus beatae, recusandae ipsum dignissimos iusto, deleniti, quos esse vel est ad at alias? modi?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem illum reprehenderit architecto molestias. Vero, fugiat cumque! Voluptatibus amet cum repellat ea maxime cupiditate praesentium eaque vel. Consectetur obcaecati praesentium velit ducimus non commodi ratione ad quasi aliquam vitae in maiores, reprehenderit quis fuga rem dolor nobis unde voluptatum debitis corrupti explicabo dicta tenetur at exercitationem. Totam dignissimos possimus facilis. Eos quasi sed, neque magni rerum facilis suscipit repudiandae cupiditate ab? Unde, voluptatum. Voluptas voluptatem modi quae tempore molestiae, alias, qui optio amet explicabo dolores perspiciatis porro omnis? Nostrum, quos optio! Perspiciatis similique assumenda odio quis unde cupiditate aliquam iste enim.</p>
+            <p>{{ meetup.description }}</p>
         </v-card-text>
       </v-card>
     </v-flex>

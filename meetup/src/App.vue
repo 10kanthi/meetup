@@ -49,15 +49,27 @@
 <script>
 export default {
   data: () => ({
-    sideNav: false,
-    menuItems: [
-      { icon: 'add_circle', title: 'Create a meetup', link: '/meetup/new' },
-      { icon: 'supervised_user_circle', title: 'View Meetups', link: '/meetups' },
-      { icon: 'person', title: 'profile', link: '/profile' },
-      { icon: 'face', title: 'Sign up', link: '/signin' },
-      { icon: 'lock_open', title: 'Sign in', link: '/signup' }
-    ]
-  })
+    sideNav: false
+  }),
+  computed: {
+    menuItems () {
+      let menuItems = [
+        { icon: 'face', title: 'Sign up', link: '/signup' },
+        { icon: 'lock_open', title: 'Sign in', link: '/signin' }
+      ]
+      if (this.userIsAuth) {
+        menuItems = [
+          { icon: 'add_circle', title: 'Create a meetup', link: '/meetup/new' },
+          { icon: 'supervised_user_circle', title: 'View Meetups', link: '/meetups' },
+          { icon: 'person', title: 'profile', link: '/profile' }
+        ]
+      }
+      return menuItems
+    },
+    userIsAuth () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
+  }
 }
 
 </script>
