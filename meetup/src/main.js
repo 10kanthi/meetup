@@ -6,9 +6,13 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import DateFilter from './filters/date'
+import AlertComponent from './components/Shared/Alert.vue'
 
 Vue.config.productionTip = false
+
+// register components
 Vue.filter('date', DateFilter)
+Vue.component('app-alert', AlertComponent)
 
 new Vue({
   router,
@@ -22,5 +26,6 @@ new Vue({
       projectId: 'meetupbm',
       storageBucket: 'meetupbm.appspot.com'
     })
+    this.$store.dispatch('loadMeetups')
   }
 }).$mount('#app')

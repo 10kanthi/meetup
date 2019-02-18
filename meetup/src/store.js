@@ -34,33 +34,86 @@ export default new Vuex.Store({
         location: 'Milan, 45889',
         description: 'Prism pinterest tumeric single-origin coffee leggings. Put a bird on it gastropub cliche marfa, semiotics authentic pickled wayfarers synth bicycle rights iceland butcher +1 biodiesel hoodie. Cardigan deep v four loko subway tile banh mi mlkshk kogi taxidermy fingerstache. Beard tilde twee plaid master cleanse hoodi' }
     ],
-    user: null
+    user: null,
+    loading: false,
+    error: null
   },
   mutations: { // are always syncronous
+    setLoadedMeetups (state, payload) {
+      state.loadedMeetups = payload
+      // payload here represents the array meetups I created and fetched from firebase
+    },
     createMeetup (state, payload) {
       state.loadedMeetups.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
+    },
+    setLoading (state, payload) {
+      state.loading = payload
+    },
+    setError (state, payload) {
+      state.error = payload
+    },
+    clearError (state) {
+      state.error = null
     }
   },
-  actions: { // usally asyncronous
+  actions: { // only in actions we run asyncronous tasks
+    loadMeetups ({ commit }) {
+      commit('setLoading', true)
+      firebase.database().ref('meetups').once('value')
+        .then((data) => {
+          const meetups = []
+          const obj = data.val()
+          console.log(obj)
+          for (let key in obj) {
+            // store my objs in meetups array
+            // id keys are genersated by firebase
+            meetups.push({
+              id: key,
+              title: obj[key].title,
+              description: obj[key].description,
+              imageUrl: obj[key].imageUrl,
+              date: obj[key].date
+            })
+          }
+          commit('setLoadedMeetups', meetups)
+          commit('setLoading', false)
+        })
+        .catch((error) => {
+          console.log(error)
+          commit('setLoading', true)
+        })
+    },
     createMeetup ({ commit }, payload) {
       const meetup = {
         title: payload.title,
-        location: payload.loaction,
+        location: payload.location,
         imageUrl: payload.imageUrl,
         description: payload.description,
-        date: payload.date,
-        id: 'fakeid'
+        date: payload.date
       }
       // Reach out to firebase and store my obj
-      commit('createMeetup', meetup)
+      firebase.database().ref('meetups').push(meetup)
+        .then((data) => {
+          const key = data.key
+          commit('createMeetup', {
+            ...meetup,
+            id: key
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     signUserUp ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
+            commit('setLoading', false)
             const newUser = {
               id: user.uid,
               registeredMeetups: []
@@ -70,11 +123,15 @@ export default new Vuex.Store({
         )
         .catch(
           error => {
+            commit('setLoading', false)
+            commit('setError', error)
             console.log(error)
           }
         )
     },
     signUserIn ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
@@ -87,9 +144,14 @@ export default new Vuex.Store({
         )
         .catch(
           error => {
+            commit('setLoading', false)
+            commit('setError', error)
             console.log(error)
           }
         )
+    },
+    clearError ({ commit }) {
+      commit('clearError')
     }
   },
   // with getters we can use the components is many places inside our application
@@ -111,6 +173,12 @@ export default new Vuex.Store({
     },
     user (state) {
       return state.user
+    },
+    loading (state) {
+      return state.loading
+    },
+    error (state) {
+      return state.error
     }
   }
 })

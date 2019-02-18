@@ -105,7 +105,7 @@ export default {
     submitdate () {
       const time = this.time
       const date = new Date().toISOString().substr(0, 10)
-      const picked = 'Date of meetup: ' + date + ' on ' + time
+      const picked =  date + time
       return picked
     }
   },

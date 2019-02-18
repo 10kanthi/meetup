@@ -9,10 +9,21 @@
                 <v-btn large router to="/meetup/new" class="secondary">Organize Meetup</v-btn>
             </v-flex>
         </v-layout>
+        <v-layout>
+            <v-flex xs12 class="text-xs-center">
+                <v-progress-circular
+                    indeterminate
+                    color="amber"
+                    :width="7"
+                    :size="60"
+                    v-if="loading"
+                ></v-progress-circular>
+            </v-flex>
+        </v-layout>
         <!-- second row -->
         <v-layout row wrap class="mt-3">
             <v-flex xs12>
-                 <v-carousel hide-controls style="cursor:pointer">
+                 <v-carousel hide-controls style="cursor:pointer" v-if="!loading">
                     <v-carousel-item
                     v-for="meetup  in meetups"
                     :key="meetup.id"
@@ -39,6 +50,9 @@ export default {
   computed: {
     meetups () {
       return this.$store.getters.featuredMeetups
+    },
+    loading () {
+        return this.$store.getters.loading
     }
   },
   methods: {

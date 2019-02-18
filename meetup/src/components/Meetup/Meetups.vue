@@ -40,6 +40,11 @@
 
 <script>
 export default {
+    data () {
+    return {
+      show: '',
+    }
+  },
   computed: {
     meetups () {
       return this.$store.getters.loadedMeetups
